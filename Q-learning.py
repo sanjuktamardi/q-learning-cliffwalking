@@ -66,5 +66,3 @@ while not done:
 
     print(f"total reward = {total_reward} & episode len = {episode_len}")
 env.close
-
-print(Q[36])

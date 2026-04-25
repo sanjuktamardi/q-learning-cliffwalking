@@ -19,7 +19,7 @@ The objective is to train an agent to navigate from the start state to the goal 
 
 ## 🌍 Environment Details
 
-* **Environment:** CliffWalking-v0
+* **Environment:** CliffWalking-v1
 * **State Space:** Discrete grid positions
 * **Action Space:** Up, Down, Left, Right
 * **Reward Structure:**

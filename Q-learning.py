@@ -17,7 +17,6 @@ def epsilon_greedy(state):
         return np.argmax(Q[state])
     
 # Q-learning
-
 for episode in range(episodes):
     render = (episode % 50 == 0)
 
@@ -26,6 +25,7 @@ for episode in range(episodes):
     else:
         env = gym.make("CliffWalking-v1")
 
+    # env = gym.make("CliffWalking-v1")
     done = False
     state, _ = env.reset()
 
@@ -37,15 +37,18 @@ for episode in range(episodes):
 
         next_state, reward, terminated, truncated, _ = env.step(action)
         done = terminated or truncated
+        next_action = epsilon_greedy(next_state)
 
         # Q-learning update
-        Q[state, action] += alpha * (reward + gamma * np.max(Q[next_state]) - Q[state, action])
+        Q[state, action] += alpha * (reward + gamma * (np.max(Q[next_state]) - Q[state, action]))
 
         state = next_state
+        action = next_action
+
         episode_len += 1
         tot_reward += reward
 
-        print(f"episode={episode + 1}/500 & total reward = {tot_reward} & episode len = {episode_len}")
+    print(f"episode={episode + 1}/500 & total reward = {tot_reward} & episode len = {episode_len}")
     env.close()
 
 # What did our agent learn?
@@ -58,11 +61,12 @@ done = False
 
 while not done:
     action = np.argmax(Q[state])
-    state, reward, terminated, truncated, _ = env.step(action)
+    next_state, reward, terminated, truncated, _ = env.step(action)
     done = terminated or truncated
+    state = next_state
 
     episode_len += 1
     total_reward += reward
 
-    print(f"total reward = {total_reward} & episode len = {episode_len}")
-env.close
+print(f"Final total reward = {total_reward} & episode len = {episode_len}")
+env.close()
